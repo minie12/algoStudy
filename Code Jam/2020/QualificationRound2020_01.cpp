@@ -1,4 +1,4 @@
-# Vestigium 
+// Vestigium 
 
 #include <stdio.h>
 #include <stdlib.h>
