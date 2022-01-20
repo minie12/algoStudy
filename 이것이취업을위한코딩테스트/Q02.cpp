@@ -11,7 +11,7 @@ int main(){
 	
 	for(int i = 0; i < N.length(); i++){
 		int num = N[i] - 48;
-		if(num == 0 || num == 1 || ans == 0) ans += num;
+		if(num <= 1 || ans <= 1) ans += num;
 		else ans *= num;
 	}
 	
