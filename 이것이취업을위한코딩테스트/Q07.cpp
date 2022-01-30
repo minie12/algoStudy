@@ -9,6 +9,7 @@ int main(){
 	
 	int left = 0;int right = 0;
 	int mid = N.length()/2;
+	
 	for(int i = 0; i < N.length(); i++){
 		if(i >= mid) right += N[i];
 		else left += N[i];
