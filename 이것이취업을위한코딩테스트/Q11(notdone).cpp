@@ -34,16 +34,21 @@ int main(){
 	for(int i = 0; i < K; i++){
 		int a1, a2;
 		cin >> 	a1 >> a2;
-		board[a1][a2] = 1; // have apple
+		board[a2][a1] = 1; // have apple
 	}
 	
 	// direction {R, D, L, U}
-	int dx[4] = {1, 0, -1, 0};
-	int dy[4] = {0, 1, 0, -1};
+	int dy[4] = {1, 0, -1, 0};
+	int dx[4] = {0, 1, 0, -1};
 	
 	int L; // direction count
 	cin >> L;
-	int time = 1;
+	queue<pair<int, char>> turns;
+	for(int i = 0; i < L; i++){
+		int x; char c;
+		cin >> x >> c;
+		turns.push({x,c});
+	}
 	
 	// direction
 	char c;
@@ -52,47 +57,35 @@ int main(){
 	int d_h = 0;
 	
 	// time
-	int x, i = 1; 
-	cin >> x >> c;
+	int time = 0;
 	while(true){
+		time++; 
+		
 		int h_x = snake.back().first + dx[d_h];
 		int h_y = snake.back().second + dy[d_h];
 		
-		cout << "time: " << time << "(" << h_x << ", " << h_y << ")" << endl;
+		//cout << "time: " << time << "(" << h_x << ", " << h_y << ")" << endl;
 			
 		// if head meets wall
-		if(h_x > N || h_y > N || h_x < 1 || h_y < 1) break;
-		
-		if(board[h_y][h_x] == 1){ // have apple
-			snake.push(make_pair(h_x, h_y));
-			board[h_y][h_x] = -1;
-		}
-		else{
-			if(board[h_y][h_x] == -1){ // have body
-				break;
-			}
+		if(h_x > N || h_y > N || h_x < 1 || h_y < 1 || board[h_y][h_x] == -1) break;
 			
-			snake.push(make_pair(h_x, h_y));
-			board[h_y][h_x] = -1;
-			
+		if(board[h_y][h_x] != 1){ // don't have apple
 			int t_x = snake.front().first;
 			int t_y = snake.front().second;
 			snake.pop();
 			board[t_y][t_x] = 0;
 		}
 		
-		printBoard(board, N);
+		snake.push(make_pair(h_x, h_y));
+		board[h_y][h_x] = -1;
+		
+		//printBoard(board, N);
 		
 		// get next direction
-		if(time >= x && i <= L){
-			d_h = GetDirection(c, d_h);
-			
-			if(i < L) cin >> x >> c;
-			
-			i++;
+		if(time >= turns.front().first && turns.size()!=0){
+			d_h = GetDirection(turns.front().second, d_h);
+			turns.pop();
 		}
-		
-		time++;
 	}
 
 	cout << time;
